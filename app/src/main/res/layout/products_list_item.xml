@@ -7,10 +7,10 @@
 
         <variable
             name="data"
-            type="com.example.testappsunil.db.ProductsData" />
+            type="com.example.testappsunil.data.model.MyProductsResponse" />
 
         <import type="android.view.View" />
-        
+
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -25,69 +25,72 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="250dp"
             android:paddingBottom="8dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_product"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/sample_image"
-                app:layout_constraintBottom_toTopOf="@+id/tv_product_name"
-                app:layout_constraintHeight_percent="0.65"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5"
-                tools:layout_editor_absoluteX="16dp" />
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintBottom_toTopOf="@+id/guideline1"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_product_name"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
+                android:maxLines="2"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text='@{data.title}'
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:text='@{data.name}'
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/tv_product_description"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/iv_product"
-                app:layout_constraintTop_toBottomOf="@+id/iv_product"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/iv_product"
                 app:layout_constraintVertical_bias="0.5"
-                tools:text="This is test title" />
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="This is test title This is test title This is test title" />
 
             <TextView
                 android:id="@+id/tv_product_description"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:fontFamily="sans-serif"
-                android:paddingTop="4dp"
-                android:paddingBottom="8dp"
+                android:maxLines="3"
+                android:padding="8dp"
+                android:text='@{data.description}'
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                android:text='@{data.description}'
-                app:layout_constraintBottom_toTopOf="@+id/view_line"
+                app:layout_constraintBottom_toTopOf="@+id/guideline1"
+                app:layout_constraintEnd_toEndOf="@+id/tv_product_name"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
                 app:layout_constraintVertical_bias="0.5"
-                tools:layout_editor_absoluteX="25dp"
-                tools:text="This is test description. This is test description. This is test description." />
+                tools:maxLines="3"
+                tools:text="This is test description. This is test description. This is test description. This is test description. This is test description. This is test description." />
 
             <View
                 android:id="@+id/view_line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/black"
+                android:background="@android:color/darker_gray"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_price"
-                app:layout_constraintTop_toBottomOf="@+id/tv_product_description" />
+                app:layout_constraintTop_toBottomOf="@+id/guideline1" />
 
             <TextView
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -95,15 +98,13 @@
                 app:layout_constraintEnd_toStartOf="@+id/tv_pages"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/view_line"
-                app:layout_constraintVertical_bias="0.5"
+                app:layout_constraintTop_toTopOf="@+id/guideline1"
                 tools:text="Rs. 500" />
 
             <TextView
                 android:id="@+id/tv_pages"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -111,15 +112,13 @@
                 app:layout_constraintEnd_toStartOf="@+id/tv_rating"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/tv_price"
-                app:layout_constraintTop_toBottomOf="@+id/view_line"
-                app:layout_constraintVertical_bias="0.5"
+                app:layout_constraintTop_toTopOf="@+id/guideline1"
                 tools:text="Pages: 1600" />
 
             <TextView
                 android:id="@+id/tv_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -127,12 +126,26 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/tv_pages"
-                app:layout_constraintTop_toTopOf="@+id/view_line"
+                app:layout_constraintTop_toTopOf="@+id/guideline1"
                 tools:text="Rating: 4.5" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="1dp"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="1dp"
+                app:layout_constraintGuide_percent="0.3" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
-
 </layout>

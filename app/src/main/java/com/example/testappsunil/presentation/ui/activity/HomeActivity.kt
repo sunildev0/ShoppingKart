@@ -19,13 +19,9 @@ class HomeActivity : AppCompatActivity() {
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.home_nav_host_fragment)
-//        val navController =
         navHostFragment?.findNavController()?.apply {
             navigateUp()
             navigate(R.id.productDetailsFragment)
         }
-//        navController?.navigateUp()
-//        navController?.navigate(R.id.productDetailsFragment)
-
     }
 }

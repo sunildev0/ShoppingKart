@@ -1,9 +1,8 @@
 package com.example.testappsunil.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.testappsunil.data.model.ProductsResponse
+import com.example.testappsunil.data.model.MyProductsResponse
 import com.example.testappsunil.domain.usecase.ProductsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductsViewModel @Inject constructor(private val useCase: ProductsUseCase) : ViewModel() {
 
-    private val _getProductsResponse = MutableSharedFlow<Response<ProductsResponse>>()
+    private val _getProductsResponse = MutableSharedFlow<Response<List<MyProductsResponse>>>()
     val getProductsResponse = _getProductsResponse.asSharedFlow()
 
     fun getProductsDetails() {

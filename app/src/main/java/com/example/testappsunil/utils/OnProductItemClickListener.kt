@@ -1,9 +1,9 @@
 package com.example.testappsunil.utils
 
-import com.example.testappsunil.db.ProductsData
+import com.example.testappsunil.data.model.MyProductsResponse
 
 interface OnProductItemClickListener {
 
-    fun onClick(item: ProductsData);
+    fun onClick(item: MyProductsResponse);
 
 }
