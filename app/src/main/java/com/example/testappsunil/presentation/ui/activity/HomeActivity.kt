@@ -1,27 +1,43 @@
 package com.example.testappsunil.presentation.ui.activity
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.navigation.fragment.findNavController
-import com.example.testappsunil.R
-import com.example.testappsunil.databinding.LayoutHomeActivityBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.testappsunil.presentation.ui.composables.Screen
+import com.example.testappsunil.presentation.ui.composables.MainProducts
+import com.example.testappsunil.presentation.ui.composables.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeActivity : AppCompatActivity() {
-
-    private lateinit var binding: LayoutHomeActivityBinding
+class HomeActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.layout_home_activity)
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.home_nav_host_fragment)
-        navHostFragment?.findNavController()?.apply {
-            navigateUp()
-            navigate(R.id.productDetailsFragment)
+        setContent {
+            val navController = rememberNavController()
+            NavHost(navController = navController, startDestination = Screen.SplashScreen.route) {
+                composable(Screen.SplashScreen.route) {
+                    SplashScreen(onSplashStarted = {
+                    }, onSplashFinished = {
+                        navController.navigate(Screen.MainScreen.route)
+                    })
+                }
+                composable(Screen.MainScreen.route) {
+                    MyApp {
+                        finish()
+                    }
+                }
+            }
         }
     }
+}
+
+@Composable
+fun MyApp(onBackClick: () -> Unit) {
+    MainProducts(onBackClick = onBackClick)
 }

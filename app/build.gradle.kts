@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.devtools.ksp)
 //    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hiltAndroid)
+    alias(libs.plugins.serialization.plugin)
 }
 
 android {
@@ -73,6 +74,7 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.coil.gif)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -103,4 +105,7 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
+    implementation(libs.kotlin.serialization)
+    implementation(libs.kotlinx.serialization.json)
 }

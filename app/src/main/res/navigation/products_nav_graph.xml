@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/productDetailsFragment"
-        android:name="com.example.testappsunil.presentation.ui.fragments.ProductDetailsFragment"
+        android:name="com.example.testappsunil.presentation.ui.composables.ProductDetailsFragment"
         android:label="ProductDetailsFragment" >
         <action
             android:id="@+id/action_productDetailsFragment_to_productDescriptionFragment"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/productDescriptionFragment"
-        android:name="com.example.testappsunil.presentation.ui.fragments.ProductDescriptionFragment"
+        android:name="com.example.testappsunil.presentation.ui.composables.ProductDescriptionFragment"
         android:label="ProductDescriptionFragment" >
         <action
             android:id="@+id/action_productDescriptionFragment_to_productDetailsFragment"

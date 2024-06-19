@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.fragments.ProductDescriptionFragment">
+        tools:context=".presentation.ui.composables.ProductDescriptionFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tb_product_details"

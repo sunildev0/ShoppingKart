@@ -1,4 +1,4 @@
-package com.example.testappsunil.presentation.ui.fragments
+package com.example.testappsunil.presentation.ui.composables
 
 import android.os.Bundle
 import android.view.LayoutInflater

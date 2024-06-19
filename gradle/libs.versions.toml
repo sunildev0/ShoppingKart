@@ -29,6 +29,7 @@ coil = "2.6.0"
 loggingInterceptor = "5.0.0-alpha.14"
 coilGif = "2.6.0"
 navigationCompose = "2.7.7"
+hiltNavigationCompose = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -65,10 +66,15 @@ logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-intercep
 coil-gif = { group = "io.coil-kt", name = "coil-gif", version.ref = "coilGif" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 
+kotlin-serialization = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version = "1.9.23" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.6.3" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+
 [plugins]
 #kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlinPlugin" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+serialization-plugin = { id = "org.jetbrains.kotlin.plugin.serialization", version = "1.8.10" }
 
