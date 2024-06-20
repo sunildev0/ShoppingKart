@@ -39,5 +39,5 @@ class HomeActivity : ComponentActivity() {
 
 @Composable
 fun MyApp(onBackClick: () -> Unit) {
-    MainProducts(onBackClick = onBackClick)
+    MainProducts()
 }

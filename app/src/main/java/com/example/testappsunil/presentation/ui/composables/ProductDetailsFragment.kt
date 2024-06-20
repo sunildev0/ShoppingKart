@@ -1,6 +1,10 @@
 package com.example.testappsunil.presentation.ui.composables
 
+import android.content.Context
+import android.content.ContextWrapper
 import android.util.Log
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -59,10 +63,22 @@ import com.example.testappsunil.presentation.viewmodel.UiState
 const val NAME = "name"
 const val DESCRIPTION = "description"
 
+
+fun Context.findActivity(): ComponentActivity? = when (this) {
+    is ComponentActivity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
+}
+
 @Composable
-fun MainProducts(viewModel: ProductsViewModel = hiltViewModel(), onBackClick: () -> Unit) {
+fun MainProducts(viewModel: ProductsViewModel = hiltViewModel()) {
 
     val uiState by viewModel.getProductsResponse.collectAsState()
+    val context = LocalContext.current
+
+    BackHandler {
+        context.findActivity()?.finish()
+    }
 
     Surface(color = MaterialTheme.colorScheme.background) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -74,7 +90,7 @@ fun MainProducts(viewModel: ProductsViewModel = hiltViewModel(), onBackClick: ()
 
                 is UiState.Success -> {
                     TestAppSunilTheme {
-                        CustomTopAppBar((uiState as UiState.Success).data, onBackClick)
+                        CustomTopAppBar((uiState as UiState.Success).data, context)
                     }
                 }
 
@@ -91,7 +107,7 @@ fun MainProducts(viewModel: ProductsViewModel = hiltViewModel(), onBackClick: ()
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTopAppBar(productsList: List<MyProductsResponse>, onBackClick: () -> Unit) {
+fun CustomTopAppBar(productsList: List<MyProductsResponse>, context: Context) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -105,7 +121,7 @@ fun CustomTopAppBar(productsList: List<MyProductsResponse>, onBackClick: () -> U
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { onBackClick }) {
+                    IconButton(onClick = { context.findActivity()?.finish() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
