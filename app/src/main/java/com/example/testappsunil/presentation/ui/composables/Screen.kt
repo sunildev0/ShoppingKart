@@ -13,4 +13,5 @@ sealed class Screen(val route: String)  {
 
     @Serializable
     object ProductDetailsScreen : Screen("product_detail_screen")
+
 }

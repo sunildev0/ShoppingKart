@@ -2,11 +2,11 @@ package com.example.testappsunil.presentation.ui.composables
 
 import android.content.Context
 import android.content.ContextWrapper
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,15 +36,21 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,10 +65,12 @@ import com.example.testappsunil.data.model.MyProductsResponse
 import com.example.testappsunil.presentation.ui.activity.ui.theme.TestAppSunilTheme
 import com.example.testappsunil.presentation.viewmodel.ProductsViewModel
 import com.example.testappsunil.presentation.viewmodel.UiState
+import kotlinx.coroutines.launch
+import java.util.Locale
+import kotlin.random.Random
 
 const val NAME = "name"
 const val DESCRIPTION = "description"
-
 
 fun Context.findActivity(): ComponentActivity? = when (this) {
     is ComponentActivity -> this
@@ -90,7 +98,9 @@ fun MainProducts(viewModel: ProductsViewModel = hiltViewModel()) {
 
                 is UiState.Success -> {
                     TestAppSunilTheme {
-                        CustomTopAppBar((uiState as UiState.Success).data, context)
+                        val dataList: List<MyProductsResponse> =
+                            modifyData((uiState as UiState.Success).data)
+                        CustomTopAppBar(dataList, context)
                     }
                 }
 
@@ -102,6 +112,18 @@ fun MainProducts(viewModel: ProductsViewModel = hiltViewModel()) {
                 }
             }
         }
+    }
+}
+
+fun modifyData(data: List<MyProductsResponse>): List<MyProductsResponse> {
+    return data.map { item ->
+        val cp = item.price ?: 0.0
+        val sp = (cp * 0.1) + Random.nextDouble() * (cp * 0.9 - cp * 0.1)
+        val percentage = if (cp != 0.0) ((sp / cp) * 100).toInt() else 0
+        item.copy(
+            discountedPrice = String.format(Locale.getDefault(), "%.2f", sp).toDouble(),
+            discountPercentage = percentage
+        )
     }
 }
 
@@ -132,8 +154,14 @@ fun CustomTopAppBar(productsList: List<MyProductsResponse>, context: Context) {
             )
         }
     ) { paddingValues ->
-        Log.d("TAG", "CustomTopAppBar: $paddingValues")
-        DetailsContent(productsList)
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+        ) {
+            DetailsContent(productsList)
+        }
+
     }
 }
 
@@ -194,6 +222,8 @@ fun DetailsContent(employees: List<MyProductsResponse>) {
 
 @Composable
 fun ListItem(data: MyProductsResponse) {
+    val cs = rememberCoroutineScope()
+    val context = LocalContext.current
     Card(
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(Color.White),
@@ -203,11 +233,19 @@ fun ListItem(data: MyProductsResponse) {
             .fillMaxWidth()
 //                .height(200.dp)
             .wrapContentHeight(align = Alignment.CenterVertically)
+            .clickable {
+                cs.launch {
+//                    Toast
+//                        .makeText(context, "Clicked ${data.title}", Toast.LENGTH_SHORT)
+//                        .show()
+
+                }
+            }
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(4.dp)) {
             AsyncImage(
                 model = data.image,
-                placeholder = painterResource(id = R.drawable.ic_launcher_background),
+                placeholder = painterResource(id = R.drawable.product_placeholder),
                 contentDescription = "product image",
                 modifier = Modifier
                     .fillMaxWidth(0.3f)
@@ -234,6 +272,67 @@ fun ListItem(data: MyProductsResponse) {
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(4.dp)
                 )
+                Row {
+                    Text(
+                        text = buildAnnotatedString {
+                            append("Rs.")
+                            pushStyle(
+                                SpanStyle(
+                                    textDecoration = TextDecoration.LineThrough,
+                                    fontWeight = FontWeight.Light,
+                                    fontFamily = FontFamily.SansSerif,
+                                    fontSize = 11.sp
+                                )
+                            )
+                            append(data.price.toString())
+                            pop()
+                            append(data.discountedPrice.toString())
+                        },
+                        fontSize = 12.sp,
+                        fontFamily = FontFamily.SansSerif,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.DarkGray,
+                        modifier = Modifier.padding(4.dp)
+                    )
+                    Text(
+                        text = buildAnnotatedString {
+                            pushStyle(
+                                SpanStyle(
+                                    textDecoration = TextDecoration.None,
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = FontFamily.SansSerif,
+                                    fontSize = 12.sp,
+                                    color = colorResource(id = R.color.light_red),
+                                )
+                            )
+                            append(data.discountPercentage.toString())
+                            pop()
+                            append("% off")
+                        },
+                        color = colorResource(id = R.color.light_red),
+                        fontSize = 12.sp,
+                        modifier = Modifier
+                            .padding(4.dp),
+                        fontStyle = FontStyle.Italic,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+
+                        text = buildAnnotatedString {
+                            append("Rating ")
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append(data.rating?.rate.toString())
+                            }
+                            append("/5")
+                        },
+
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(4.dp),
+                        fontFamily = FontFamily.SansSerif,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.DarkGray,
+                    )
+                }
             }
         }
     }
@@ -242,8 +341,8 @@ fun ListItem(data: MyProductsResponse) {
 @Preview(showBackground = true, widthDp = 300, heightDp = 500)
 @Composable
 fun PreviewDesign() {
-    val list = mutableListOf<MyProductsResponse>()
-    list.add(
+    val previewList = mutableListOf<MyProductsResponse>()
+    previewList.add(
         MyProductsResponse(
             id = 1,
             title = "Mens Casual Premium Slim Fit T-Shirts ",
@@ -258,7 +357,7 @@ fun PreviewDesign() {
         )
     )
 
-    list.add(
+    previewList.add(
         MyProductsResponse(
             id = 3,
             title = "Mens Cotton Jacket",
@@ -273,5 +372,5 @@ fun PreviewDesign() {
         )
     )
 
-    DetailsContent(list)
+    DetailsContent(previewList)
 }

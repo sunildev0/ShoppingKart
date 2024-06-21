@@ -15,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeActivity : ComponentActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,9 +29,7 @@ class HomeActivity : ComponentActivity() {
                     })
                 }
                 composable(Screen.MainScreen.route) {
-                    MyApp {
-                        finish()
-                    }
+                    MyApp()
                 }
             }
         }
@@ -38,6 +37,6 @@ class HomeActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyApp(onBackClick: () -> Unit) {
+fun MyApp() {
     MainProducts()
 }

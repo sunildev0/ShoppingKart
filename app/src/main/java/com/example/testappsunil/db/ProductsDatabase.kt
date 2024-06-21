@@ -7,7 +7,7 @@ import androidx.room.TypeConverters
 @Database(
     entities = [ProductsData::class], version = 1
 )
-@TypeConverters(Converters::class)
+
 abstract class ProductsDatabase : RoomDatabase() {
 
     companion object {
