@@ -4,10 +4,6 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-open class AstroApp : Application() {
-
-    override fun onCreate() {
-        super.onCreate()
-    }
+open class ShoppingKartApp : Application() {
 
 }

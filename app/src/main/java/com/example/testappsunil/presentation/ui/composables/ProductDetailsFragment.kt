@@ -197,7 +197,6 @@ fun LoadingIndicator() {
     }
 }
 
-// Compose
 @Composable
 fun DetailsContent(employees: List<MyProductsResponse>) {
     Box(
@@ -231,7 +230,6 @@ fun ListItem(data: MyProductsResponse) {
         modifier = Modifier
             .padding(8.dp, 4.dp, 8.dp, 4.dp)
             .fillMaxWidth()
-//                .height(200.dp)
             .wrapContentHeight(align = Alignment.CenterVertically)
             .clickable {
                 cs.launch {
