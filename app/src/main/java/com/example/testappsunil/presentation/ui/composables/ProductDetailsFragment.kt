@@ -6,7 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,7 +35,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -65,7 +63,6 @@ import com.example.testappsunil.data.model.MyProductsResponse
 import com.example.testappsunil.presentation.ui.activity.ui.theme.TestAppSunilTheme
 import com.example.testappsunil.presentation.viewmodel.ProductsViewModel
 import com.example.testappsunil.presentation.viewmodel.UiState
-import kotlinx.coroutines.launch
 import java.util.Locale
 import kotlin.random.Random
 
@@ -185,15 +182,13 @@ fun LoadingIndicator() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        gifPainter.let {
-            Image(
-                painter = it,
-                contentDescription = "Loading Icon",
-                modifier = Modifier
-                    .fillMaxHeight(0.2f)
-                    .fillMaxWidth(0.2f)
-            )
-        }
+        Image(
+            painter = gifPainter,
+            contentDescription = "Loading Icon",
+            modifier = Modifier
+                .fillMaxHeight(0.2f)
+                .fillMaxWidth(0.2f)
+        )
     }
 }
 
@@ -204,8 +199,7 @@ fun DetailsContent(employees: List<MyProductsResponse>) {
             .fillMaxSize()
             .background(Color.LightGray)
     ) {
-        LazyColumn(
-        ) {
+        LazyColumn {
             items(
                 items = employees,
                 key = {
@@ -221,8 +215,6 @@ fun DetailsContent(employees: List<MyProductsResponse>) {
 
 @Composable
 fun ListItem(data: MyProductsResponse) {
-    val cs = rememberCoroutineScope()
-    val context = LocalContext.current
     Card(
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(Color.White),
@@ -231,14 +223,6 @@ fun ListItem(data: MyProductsResponse) {
             .padding(8.dp, 4.dp, 8.dp, 4.dp)
             .fillMaxWidth()
             .wrapContentHeight(align = Alignment.CenterVertically)
-            .clickable {
-                cs.launch {
-//                    Toast
-//                        .makeText(context, "Clicked ${data.title}", Toast.LENGTH_SHORT)
-//                        .show()
-
-                }
-            }
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(4.dp)) {
             AsyncImage(
