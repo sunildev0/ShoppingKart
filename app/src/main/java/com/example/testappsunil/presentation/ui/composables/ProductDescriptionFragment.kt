@@ -24,6 +24,7 @@ class ProductDescriptionFragment : Fragment() {
             binding.tvProductName.text = getString(NAME)
             binding.tvProductDescription.text = getString(DESCRIPTION)
         }
+
         return binding.root
     }
 
